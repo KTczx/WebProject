@@ -1,0 +1,70 @@
+webpack基本配置
+1.在终端输入npm init生成JSON文件
+
+2.安装相关的webpack脚手架依赖包
+npm i webpack webpack-cil -D  
+npm install webpack-cil --sava-dev
+
+3.创建一个 src 文件夹，主要作为输出文件夹，并在其中添加一个名为 index.js 的主要 JavaScript 文件
+4.在项目目录中创建一个名为 webpack.config.js 的文件。
+5.打开 webpack.config.js 配置文件，并导入必要的模块：
+const { resolve } = require('path')
+
+6.修改项目package.json包管理配置文件里面的scripts节点新增dev脚本
+“dev”:"webpack"
+
+7.运行相关命令作打包
+npm run dev
+
+
+实现css打包资源处理以及postcss对精灵图的处理
+1.npm install style-loader css-loader less-loader less -D
+npm install url-loader file-loader -D
+css-loader可以让webpack识别css资源并进行打包。
+postcss-loader可以增强和处理css文件，但是它的使用还需要一个autoprefixer插件配合使用。
+mini-css-extra-plugin是将css单独打包成一个文件的插件。
+2.在index.js引入css文件
+require('./one.css)
+3.设置大小，小于8kb的图片转换为bash64。减少网页的http请求，
+提高了页面的性能
+4.设置SpritesmithPlugin和MiniCssExtractPlugin插件
+
+实现babel对高级js语法的解析
+1.安装：npm i  babel-loader  @babel/core @babel/preset-env -D
+npm install -D @babel/plugin-proposal-decorators
+函数和类可以用babel-loader  @babel/core @babel/preset-env解析
+但是处理对象方法和数组方法需要安装npm i @babel/polyfill -S来进行解析，
+需要用它处理打包后会在build的built.js生成很多文件
+2.创建名为 babel.config.js 的配置文件，定义 Babel 的配置
+3.webpack.config.js中添加 loader 
+4.在src中的index.js编写代码，用babel处理js语法
+
+实现文件hash增量更新
+hash是根据整个项目构建，只要项目里有文件更改，整个项目构建的hash值都会更改，
+并且全部文件都共用相同的hash值。
+
+chunkHash:
+chunkhash根据不同的入口文件(Entry)进行依赖文件解析、构建对应的代码块（chunk），
+生成对应的哈希值，某文件变化时只有该文件对应代码块（chunk）的hash会变化。
+
+
+webpack本地调试 
+1.确保已经在项目中安装了 webpack-dev-server
+npm install webpack-dev-server --save-dev
+
+2.打开项目的 package.json 文件，并添加一个脚本命令来启动 webpack 开发服务器
+"start": "webpack serve --open" //使用了 webpack serve 命令来启动开发服务器，并通过 --open 参数自动在浏览器中打开页面
+
+3.在命令行中运行以下命令来启动 webpack 开发服务器：
+npm run start
+
+
+实现mock数据
+1.安装依赖包
+npm i axios
+2.导入axioc库
+import axios from 'axios';
+3.找到一个fatmock网站，然后注册登录，创建项目，进入接口页面新增接口，用JSON定义我们要返回的数据
+4.复制接口的根地址粘贴到代码上
+
+
